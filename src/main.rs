@@ -20,7 +20,7 @@ async fn main() -> anyhow::Result<()> {
 <font style="color:#000080;font-family:Arial;font-size:9pt;">(.*)<\/font>"#).unwrap();
 
     let text: String = re.captures_iter(&res).map(|caps| {
-        let (_, [inner_text]) = caps.extract();
+        let (_, [_, inner_text]) = caps.extract();
         inner_text
     }).collect();
 
