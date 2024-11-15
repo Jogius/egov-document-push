@@ -1,0 +1,12 @@
+[package]
+name = "egov-document-simplepush"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.93"
+env-file-reader = "0.3.0"
+regex = "1.11.1"
+reqwest = "0.12.9"
+simplepush-rs = "0.1.2"
+tokio = { version = "1.41.1", features = ["full"] }
