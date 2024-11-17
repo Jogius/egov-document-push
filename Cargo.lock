@@ -211,7 +211,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "egov-document-simplepush"
+name = "egov-document-push"
 version = "0.1.0"
 dependencies = [
  "anyhow",
