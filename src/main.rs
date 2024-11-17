@@ -1,7 +1,4 @@
-use tokio::task::spawn_blocking;
 use regex::Regex;
-use simplepush_rs::SimplePush;
-use simplepush_rs::Message;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -24,20 +21,13 @@ async fn main() -> anyhow::Result<()> {
         inner_text
     }).collect();
 
-    let mut msg: String = env["SP_PREFIX"].clone();
+    let mut msg: String = env["GOTIFY_PREFIX"].clone();
     msg.push_str(&text);
 
-    let _ = spawn_blocking(move || {
-        SimplePush::send(Message::new_with_encryption(
-            env["SP_KEY"].as_str(),
-            Some(env["SP_TITLE"].as_str()),
-            &msg,
-            None,
-            None,
-            env["SP_PASSWORD"].as_str(),
-            Some(env["SP_SALT"].as_str()),
-        )).expect("Unsuccessful SimplePush request")
-    }).await;
+    let client = gotify::Client::new_unauthenticated(env["GOTIFY_URL"].as_str())?;
+    let client = client.authenticate(env["GOTIFY_TOKEN"].as_str())?;
+
+    client.create_message(msg).with_title(env["GOTIFY_TITLE"].clone()).await?;
     
     Ok(())
 }
